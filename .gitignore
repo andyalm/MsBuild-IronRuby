@@ -3,3 +3,4 @@
 *.suo
 [Oo]bj/
 [Bb]in/
+packages/**
