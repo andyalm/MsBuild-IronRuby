@@ -1,4 +1,5 @@
+.idea/**
 *.user
 *.suo
-**/bin/**/*.*
-**/obj/**/*.*
+[Oo]bj/
+[Bb]in/

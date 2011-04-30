@@ -34,16 +34,17 @@ module MsBuildTask
     def is_required
       required?
     end
-  end
-end
 
-class HelloMsBuild
-  include MsBuildTask
+    def output?
+      @options[:output] || false
+    end
 
-  task_parameter :text, :required => true
-  task_parameter :severity
+    def is_output
+      output?
+    end
 
-  def execute
-    log.log_message text
+    def type
+      @options[:type] || 'string'
+    end
   end
 end

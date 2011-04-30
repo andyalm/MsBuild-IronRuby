@@ -4,6 +4,9 @@ using Microsoft.Scripting;
 
 namespace MsBuild.IronRuby
 {
+    /// <summary>
+    /// DLR hook to load a script from an embedded resource
+    /// </summary>
     public class EmbeddedResourceContentProvider : StreamContentProvider
     {
         private readonly Assembly _assembly;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsBuild.IronRuby", "src\MsBuild.IronRuby.csproj", "{D5609ED8-9096-44AA-9313-49CCE1C80868}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsBuild.IronRuby", "src\MsBuild.IronRuby\MsBuild.IronRuby.csproj", "{D5609ED8-9096-44AA-9313-49CCE1C80868}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,26 +1,29 @@
+using System;
 using System.Diagnostics.Contracts;
-using IronRuby.Runtime;
+
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using Microsoft.Scripting.Hosting;
+
+using MsBuild.IronRuby.Extensions;
 
 namespace MsBuild.IronRuby
 {
     public class IronRubyTaskWrapper : Task, IGeneratedTask
     {
-        private ScriptScope _taskScope;
-        private readonly string _taskName;
-        private dynamic _rubyTask;
+        private readonly ScriptScope _taskScope;
+        private readonly dynamic _taskClass;
+        private dynamic _taskInstance;
 
-        public IronRubyTaskWrapper(ScriptScope taskScope, string taskName)
+        public IronRubyTaskWrapper(ScriptScope taskScope, dynamic taskClass)
         {
             _taskScope = taskScope;
-            _taskName = taskName;
+            _taskClass = taskClass;
         }
 
         public override bool Execute()
         {
-            RubyTask.execute();
+            TaskInstance.execute();
 
             return true;
         }
@@ -50,34 +53,20 @@ namespace MsBuild.IronRuby
         /// <param name="value">The value to set.</param>
         public void SetPropertyValue(TaskPropertyInfo property, object value)
         {
-            Contract.Requires(property != null);
-            
-
-//            var taskOperations = _taskScope.CreateOperations();
-//            object rubyProperty;
-//            if(!taskOperations.TryGetMember(RubyTask, RubyUtils.TryMangleName(property.Name), out rubyProperty))
-//            {
-//                if(!taskOperations.TryGetMember(RubyTask, property.Name, out rubyProperty))
-//                {
-//                    throw new NotSupportedException("The property '" + property.Name + "' is not defined");
-//                }
-//            }
-//
-//            taskOperations.Invoke(rubyProperty);
-            int i = 0;
+            _taskScope.SetProperty((object)TaskInstance, property.Name, value);
         }
 
-        private dynamic RubyTask
+        private dynamic TaskInstance
         {
             get
             {
-                if(_rubyTask == null)
+                if(_taskInstance == null)
                 {
-                    _rubyTask = _taskScope.Execute(_taskName + ".new");
-                    _rubyTask.log = Log;
+                    _taskInstance = _taskClass.@new();
+                    _taskInstance.log = Log;
                 }
 
-                return _rubyTask;
+                return _taskInstance;
             }
         }
     }
