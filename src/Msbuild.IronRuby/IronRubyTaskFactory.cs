@@ -46,7 +46,7 @@ namespace MsBuild.IronRuby
 
         public TaskPropertyInfo[] GetTaskParameters()
         {
-            IEnumerable<dynamic> taskParameters = _taskClass.task_parameters().Values;
+            IEnumerable<dynamic> taskParameters = _taskClass.parameters().Values;
             return (from taskParameter in taskParameters
                     let paramInfo = new
                     {

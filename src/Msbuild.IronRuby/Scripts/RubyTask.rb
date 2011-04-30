@@ -1,50 +1,52 @@
-module MsBuildTask
-  attr_accessor :log
+module MsBuild
+  module Task
+    attr_accessor :log
 
-  module ClassMethods
-    def task_parameter(name, options={})
-      task_parameters[name] = TaskParameter.new name, options
-      attr_accessor name
+    module ClassMethods
+      def parameter(name, options={})
+        parameters[name] = TaskParameter.new name, options
+        attr_accessor name
+      end
+
+      def parameters
+        @parameters = Hash.new if @parameters == nil
+        @parameters
+      end
     end
 
-    def task_parameters
-      @task_parameters = Hash.new if @task_parameters == nil
-      @task_parameters
-    end
-  end
-
-  def self.included(c)
-    c.extend ClassMethods
-  end
-
-  class TaskParameter
-    def initialize name, options={}
-      @name = name
-      @options = options
+    def self.included(c)
+      c.extend ClassMethods
     end
 
-    def name
-      @name
-    end
+    class TaskParameter
+      def initialize name, options={}
+        @name = name
+        @options = options
+      end
 
-    def required?
-      @options.fetch :required, false
-    end
+      def name
+        @name
+      end
 
-    def is_required
-      required?
-    end
+      def required?
+        @options.fetch :required, false
+      end
 
-    def output?
-      @options[:output] || false
-    end
+      def is_required
+        required?
+      end
 
-    def is_output
-      output?
-    end
+      def output?
+        @options[:output] || false
+      end
 
-    def type
-      @options[:type] || 'string'
+      def is_output
+        output?
+      end
+
+      def type
+        @options[:type] || 'string'
+      end
     end
   end
 end

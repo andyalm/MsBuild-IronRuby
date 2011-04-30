@@ -1,0 +1,24 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    albacore (0.2.5)
+      rubyzip (= 0.9.4)
+    diff-lcs (1.1.2)
+    rake (0.9.0.beta.5)
+    rspec (2.5.0)
+      rspec-core (~> 2.5.0)
+      rspec-expectations (~> 2.5.0)
+      rspec-mocks (~> 2.5.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.5.0)
+    rubyzip (0.9.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  albacore
+  rake
+  rspec
