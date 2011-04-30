@@ -1,7 +1,8 @@
 Write your MSBuild tasks completely in IronRuby (no XML or CDATA required):
 
-    HelloWorld.rb
-    ---------------------------------
+HelloWorld.rb
+---------------------------------
+
     class HelloWorld
        include MsBuild::Task
 
