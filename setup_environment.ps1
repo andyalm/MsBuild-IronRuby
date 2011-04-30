@@ -4,10 +4,10 @@ if($result -eq $null)
     Write-Error "IronRuby is required.  Please add it to your path"
     return
 }
-bundle install
-rake
+ir -S bundle install
+ir -S rake
 
 Write-Host ""
 Write-Host "**********************************************************"
-Write-Host "Environment is set up.  From now on, you can just run rake"
+Write-Host "Environment is set up.  From now on, you can just run rake (or run build.ps1)"
 Write-Host ""
