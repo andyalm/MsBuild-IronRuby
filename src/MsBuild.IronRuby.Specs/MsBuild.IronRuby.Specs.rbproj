@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>fd6968a9-3bc7-4118-b4f1-3f5373bd9c94</ProjectGuid>
+    <ProjectGuid>{e8a4b851-cf0e-478d-a521-b02fcd17b961}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>Program.rb</StartupFile>
     <SearchPath>
@@ -22,6 +22,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="iron_ruby_task_spec.rb" />
+    <None Include="Program.rb" />
     <None Include="Program.rb" />
   </ItemGroup>
 </Project>

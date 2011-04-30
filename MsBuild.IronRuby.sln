@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsBuild.IronRuby", "src\MsBuild.IronRuby\MsBuild.IronRuby.csproj", "{D5609ED8-9096-44AA-9313-49CCE1C80868}"
 EndProject
+Project("{B373B46A-B089-44D7-96CA-CD150D098BC8}") = "MsBuild.IronRuby.Specs", "src\MsBuild.IronRuby.Specs\MsBuild.IronRuby.Specs.rbproj", "{E8A4B851-CF0E-478D-A521-B02FCD17B961}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{D5609ED8-9096-44AA-9313-49CCE1C80868}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5609ED8-9096-44AA-9313-49CCE1C80868}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5609ED8-9096-44AA-9313-49CCE1C80868}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A4B851-CF0E-478D-A521-B02FCD17B961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A4B851-CF0E-478D-A521-B02FCD17B961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A4B851-CF0E-478D-A521-B02FCD17B961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A4B851-CF0E-478D-A521-B02FCD17B961}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
