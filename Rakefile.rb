@@ -21,9 +21,9 @@ msbuild :build => [:import] do |t|
   t.solution = "src/MsBuild.IronRuby/MsBuild.IronRuby.csproj"
 end
 
-task :test => [:rspec_test, :mspec_test]
+task :test => [:rspec_test,:mspec_test]
 
-rspec :rspec_test do |t|
+rspec :rspec_test => [:import] do |t|
   t.pattern = "src/MsBuild.IronRuby.Specs/**/*_spec.rb"
   t.skip_bundler = true
 end

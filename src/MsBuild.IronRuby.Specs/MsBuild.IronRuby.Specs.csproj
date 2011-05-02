@@ -85,7 +85,6 @@
   <ItemGroup>
     <None Include="iron_ruby_task_spec.rb" />
     <None Include="packages.config" />
-    <None Include="Program.rb" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SampleTaskBehavior.cs" />

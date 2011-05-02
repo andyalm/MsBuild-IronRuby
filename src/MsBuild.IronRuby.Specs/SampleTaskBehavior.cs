@@ -4,11 +4,13 @@ using System.IO;
 using FakeItEasy;
 
 using Machine.Fakes;
+using Machine.Specifications.Annotations;
 
 using Microsoft.Build.Framework;
 
 namespace MsBuild.IronRuby
 {
+    [UsedImplicitly(ImplicitUseTargetFlags.Members)]
     public class SampleTaskBehavior
     {
         static IFileSystem _fileSystem;
