@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D5609ED8-9096-44AA-9313-49CCE1C80868}</ProjectGuid>
+    <ProjectGuid>{E8A4B851-CF0E-478D-A521-B02FCD17B961}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MsBuild.IronRuby</RootNamespace>
-    <AssemblyName>MsBuild.IronRuby</AssemblyName>
+    <AssemblyName>MsBuild.IronRuby.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,8 +30,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\..\packages\FakeItEasy.1.7.4117.2\lib\NET40\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="IronRuby, Version=1.1.2.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\IronRuby.1.1.2\Lib\IronRuby.dll</HintPath>
@@ -42,6 +50,15 @@
     <Reference Include="IronRuby.Libraries.Yaml, Version=1.1.2.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\IronRuby.1.1.2\Lib\IronRuby.Libraries.Yaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Fakes">
+      <HintPath>..\..\packages\Machine.Fakes.0.2.3.0\lib\Machine.Fakes.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Fakes.Adapters.FakeItEasy">
+      <HintPath>..\..\packages\Machine.Fakes.FakeItEasy.0.2.3.0\lib\Machine.Fakes.Adapters.FakeItEasy.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\..\packages\Machine.Specifications.0.4.10.0\lib\Machine.Specifications.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
@@ -66,30 +83,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmbeddedResourceContentProvider.cs" />
-    <Compile Include="Extensions\EngineExtensions.cs" />
-    <Compile Include="IAssemblyResolver.cs" />
-    <Compile Include="IFileSystem.cs" />
-    <Compile Include="IronRubyTaskFactory.cs" />
-    <Compile Include="IronRubyTaskWrapper.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskBodyParser.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="iron_ruby_task_spec.rb" />
     <None Include="packages.config" />
-    <None Include="Samples\HelloIronRuby.proj" />
+    <None Include="Program.rb" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Samples\HelloIronRuby.rb" />
-    <EmbeddedResource Include="Scripts\RubyTask.rb" />
+    <Compile Include="SampleTaskBehavior.cs" />
+    <Compile Include="when_setting_parameters.cs" />
+    <Compile Include="when_task_is_created.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MsBuild.IronRuby\MsBuild.IronRuby.csproj">
+      <Project>{D5609ED8-9096-44AA-9313-49CCE1C80868}</Project>
+      <Name>MsBuild.IronRuby</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="sample_task.rb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

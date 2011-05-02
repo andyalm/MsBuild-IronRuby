@@ -17,13 +17,22 @@ namespace MsBuild.IronRuby
         private const string RubyTaskScript = "MsBuild.IronRuby.Scripts.RubyTask.rb";
         private ScriptScope _taskScriptScope;
         private dynamic _taskClass;
-        private AssemblyResolver _assemblyResolver;
-        
+        private IAssemblyResolver _assemblyResolver;
+        private IFileSystem _fileSystem;
+
+        public IronRubyTaskFactory() : this(new FileSystem(), new AssemblyResolver()) {}
+
+        public IronRubyTaskFactory(IFileSystem fileSystem, IAssemblyResolver assemblyResolver)
+        {
+            _fileSystem = fileSystem;
+            _assemblyResolver = assemblyResolver;
+        }
+
         public bool Initialize(string taskName, IDictionary<string, TaskPropertyInfo> parameterGroup, string taskBody, IBuildEngine taskFactoryLoggingHost)
         {
             var projectFileDirectory = Path.GetDirectoryName(taskFactoryLoggingHost.ProjectFileOfTaskNode);
             var thisAssemblyDirectory = Path.GetDirectoryName(this.GetType().Assembly.Location);
-            _assemblyResolver = new AssemblyResolver(thisAssemblyDirectory, projectFileDirectory);
+            _assemblyResolver.BeginResolving(thisAssemblyDirectory, projectFileDirectory);
 
             try
             {
@@ -32,7 +41,8 @@ namespace MsBuild.IronRuby
                 _taskScriptScope.ExecuteEmbeddedScript(RubyTaskScript);
                 var rubyTaskBody = TaskBodyParser.Parse(taskBody);
                 var scriptFile = projectFileDirectory.CombinePath(rubyTaskBody.Script).ToFullPath();
-                _taskScriptScope = _taskScriptScope.ExecuteFile(scriptFile);
+                var scriptContents = _fileSystem.GetFileContent(scriptFile);
+                _taskScriptScope.Execute(scriptContents);
                 _taskClass = engine.Runtime.Globals.GetVariable(taskName);
             }
             catch(Exception)
@@ -78,45 +88,5 @@ namespace MsBuild.IronRuby
             get { return typeof(IronRubyTaskWrapper); }
         }
 
-        private class AssemblyResolver : IDisposable
-        {
-            private readonly ResolveEventHandler _resolveEventHandler;
-            
-            public AssemblyResolver(params string[] searchPaths)
-            {
-                _resolveEventHandler = (sender, args) =>
-                {
-                    var assemblySimpleName = GetSimpleName(args.Name);
-                    foreach(var searchPath in searchPaths)
-                    {
-                        var assemblyPath = Path.Combine(searchPath, assemblySimpleName + ".dll");
-                        try
-                        {
-                            return Assembly.LoadFrom(assemblyPath);
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
-                    }
-
-                    return null;
-                };
-
-                AppDomain.CurrentDomain.AssemblyResolve += _resolveEventHandler;
-            }
-
-            private string GetSimpleName(string name)
-            {
-                var parts = name.Split(',');
-
-                return parts[0];
-            }
-
-            public void Dispose()
-            {
-                AppDomain.CurrentDomain.AssemblyResolve -= _resolveEventHandler;
-            }
-        }
     }
 }

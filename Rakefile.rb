@@ -16,12 +16,25 @@ task :import do
   end
 end
 
-msbuild :build => [:import] do |b|
-  b.properties :configuration => configuration
-  b.solution = 'src/MsBuild.IronRuby/MsBuild.IronRuby.csproj'
+msbuild :build => [:import] do |t|
+  t.properties :configuration => configuration
+  t.solution = "src/MsBuild.IronRuby/MsBuild.IronRuby.csproj"
 end
 
-rspec :test => [:build]  do |t|
+task :test => [:rspec_test, :mspec_test]
+
+rspec :rspec_test do |t|
   t.pattern = "src/MsBuild.IronRuby.Specs/**/*_spec.rb"
   t.skip_bundler = true
 end
+
+msbuild :build_specs => [:build] do |t|
+  t.properties :configuration => configuration
+  t.solution = "src/MsBuild.IronRuby.Specs/MsBuild.IronRuby.Specs.csproj"
+end
+
+mspec :mspec_test => [:build_specs] do |t|
+  t.command = "packages/Machine.Specifications.0.4.10.0/tools/mspec-clr4.exe"
+  t.assemblies = ["src/MsBuild.IronRuby.Specs/bin/#{configuration}/MsBuild.IronRuby.Specs.dll"]
+end
+

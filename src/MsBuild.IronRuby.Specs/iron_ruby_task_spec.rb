@@ -1,18 +1,10 @@
 require 'rubygems'
 require 'rspec'
-require File.dirname(__FILE__) + '/../MsBuild.IronRuby/Scripts/RubyTask.rb'
+require File.dirname(__FILE__) + '/../MsBuild.IronRuby/Scripts/RubyTask'
+require File.dirname(__FILE__) + '/sample_task'
 
-class SampleTask
-  include MsBuild::Task
-        
-  parameter :input_param
-  parameter :required_param, :required => true
-  parameter :output_param, :output => true
-  parameter :item_param, :type => 'itaskitem'
-end
-
-describe 'IronRuby MsBuild task' do
-  describe 'task_parameter' do
+describe MsBuild::Task do
+  describe 'parameter' do
     it 'should create a settable property for a task parameter' do
       task = SampleTask.new
       task.input_param = 'my value'
