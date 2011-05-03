@@ -70,6 +70,7 @@
     <Compile Include="Extensions\EngineExtensions.cs" />
     <Compile Include="IAssemblyResolver.cs" />
     <Compile Include="IFileSystem.cs" />
+    <Compile Include="IParameterTypeDeserializer.cs" />
     <Compile Include="IronRubyTaskFactory.cs" />
     <Compile Include="IronRubyTaskWrapper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

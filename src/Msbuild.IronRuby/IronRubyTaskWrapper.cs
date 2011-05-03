@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Contracts;
 
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
@@ -30,20 +29,7 @@ namespace MsBuild.IronRuby
 
         public object GetPropertyValue(TaskPropertyInfo property)
         {
-            Contract.Requires(property != null);
-//            var taskOperations = _taskScope.CreateOperations();
-//            object rubyProperty;
-//            if(!taskOperations.TryGetMember(RubyTask, RubyUtils.TryMangleName(property.Name), out rubyProperty))
-//            {
-//                if(!taskOperations.TryGetMember(RubyTask, property.Name, out rubyProperty))
-//                {
-//                    throw new NotSupportedException("The property '" + property.Name + "' is not defined");
-//                }
-//            }
-//
-//            return taskOperations.Invoke(rubyProperty);
-
-            return string.Empty;
+            return _taskScope.GetProperty((object) TaskInstance, property.Name);
         }
 
         /// <summary>

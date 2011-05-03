@@ -18,14 +18,16 @@ namespace MsBuild.IronRuby
         private ScriptScope _taskScriptScope;
         private dynamic _taskClass;
         private IAssemblyResolver _assemblyResolver;
+        private readonly IParameterTypeDeserializer _typeDeserializer;
         private IFileSystem _fileSystem;
 
-        public IronRubyTaskFactory() : this(new FileSystem(), new AssemblyResolver()) {}
+        public IronRubyTaskFactory() : this(new FileSystem(), new AssemblyResolver(), new ParameterTypeDeserializer()) {}
 
-        public IronRubyTaskFactory(IFileSystem fileSystem, IAssemblyResolver assemblyResolver)
+        public IronRubyTaskFactory(IFileSystem fileSystem, IAssemblyResolver assemblyResolver, IParameterTypeDeserializer typeDeserializer)
         {
             _fileSystem = fileSystem;
             _assemblyResolver = assemblyResolver;
+            _typeDeserializer = typeDeserializer;
         }
 
         public bool Initialize(string taskName, IDictionary<string, TaskPropertyInfo> parameterGroup, string taskBody, IBuildEngine taskFactoryLoggingHost)
@@ -58,13 +60,12 @@ namespace MsBuild.IronRuby
         {
             IEnumerable<dynamic> taskParameters = _taskClass.parameters().Values;
             return (from taskParameter in taskParameters
-                    let paramInfo = new
-                    {
-                        Name = (string)taskParameter.name(),
-                        Type = typeof(string),
-                        IsRequired = (bool)taskParameter.is_required()
-                    }
-                    select new TaskPropertyInfo(paramInfo.Name.Unmangle(), paramInfo.Type, output: false, required: paramInfo.IsRequired)).ToArray();
+                    select new TaskPropertyInfo(
+                        name : ((string) taskParameter.name()).Unmangle(),
+                        typeOfParameter : _typeDeserializer.DeserializeType((string)taskParameter.type()),
+                        output : (bool) taskParameter.is_output(),
+                        required : (bool) taskParameter.is_required()
+                        )).ToArray();
         }
 
         public ITask CreateTask(IBuildEngine taskFactoryLoggingHost)
@@ -87,6 +88,5 @@ namespace MsBuild.IronRuby
         {
             get { return typeof(IronRubyTaskWrapper); }
         }
-
     }
 }

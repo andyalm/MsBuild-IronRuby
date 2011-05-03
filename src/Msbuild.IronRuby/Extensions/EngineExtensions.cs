@@ -57,5 +57,29 @@ namespace MsBuild.IronRuby.Extensions
                 operations.SetMember(instance, mangledPropertyName, value);
             }
         }
+
+        public static object GetProperty(this ScriptScope scope, object instance, string name)
+        {
+            var operations = scope.CreateOperations();
+            var mangledPropertyName = name.Mangle();
+            var unmangledPropertyName = name;
+
+            object property = null;
+            if (!operations.TryGetMember(instance, mangledPropertyName, out property))
+            {
+                if (!operations.TryGetMember(instance, unmangledPropertyName.Mangle(), out property))
+                {
+                    throw new MemberAccessException("The property '" + name + "' is not defined");
+                }
+                else
+                {
+                    return operations.GetMember(instance, unmangledPropertyName);
+                }
+            }
+            else
+            {
+                return operations.GetMember(instance, mangledPropertyName);
+            }
+        }
     }
 }

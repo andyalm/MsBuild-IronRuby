@@ -88,8 +88,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SampleTaskBehavior.cs" />
-    <Compile Include="when_setting_parameters.cs" />
-    <Compile Include="when_task_is_created.cs" />
+    <Compile Include="when_discovering_parameters.cs" />
+    <Compile Include="when_executing_task.cs" />
+    <Compile Include="when_initializing_task.cs" />
+    <Compile Include="when_parsing_parameter_types.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MsBuild.IronRuby\MsBuild.IronRuby.csproj">

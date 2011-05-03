@@ -26,6 +26,18 @@ namespace MsBuild.IronRuby
         It should_set_default_type_to_string = () =>
             _discoveredParameters["InputParam"].PropertyType.ShouldEqual(typeof(string));
 
+        It should_recognize_output_parameters = () =>
+            _discoveredParameters["OutputParam"].Output.ShouldBeTrue();
+
+        It should_default_to_optional_parameter = () =>
+            _discoveredParameters["InputParam"].Required.ShouldBeFalse();
+        
+        It should_recognize_required_parameters = () =>
+            _discoveredParameters["RequiredParam"].Required.ShouldBeTrue();
+
+        It should_use_specified_type = () =>
+            _discoveredParameters["ItemParam"].PropertyType.ShouldEqual(typeof(ITaskItem));
+
         private static SampleTaskBehavior _sampleTaskBehavior;
         private static IDictionary<string,TaskPropertyInfo> _discoveredParameters;
     }

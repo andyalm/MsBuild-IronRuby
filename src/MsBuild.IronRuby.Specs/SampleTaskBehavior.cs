@@ -15,6 +15,7 @@ namespace MsBuild.IronRuby
     {
         static IFileSystem _fileSystem;
         static IBuildEngine _buildEngine;
+        static IParameterTypeDeserializer _typeDeserializer;
         static bool _initReturnValue;
         
         OnEstablish context = fakeAccessor =>
@@ -28,6 +29,14 @@ namespace MsBuild.IronRuby
             _buildEngine
                 .WhenToldTo(e => e.ProjectFileOfTaskNode)
                 .Return("c:\\mybuilddir\\build.proj");
+
+            _typeDeserializer = fakeAccessor.The<IParameterTypeDeserializer>();
+            _typeDeserializer
+                .WhenToldTo(s => s.DeserializeType("string"))
+                .Return(typeof(string));
+            _typeDeserializer
+                .WhenToldTo(s => s.DeserializeType("taskitem"))
+                .Return(typeof (ITaskItem));
         };
 
         public bool Initialize(IronRubyTaskFactory taskFactory)
