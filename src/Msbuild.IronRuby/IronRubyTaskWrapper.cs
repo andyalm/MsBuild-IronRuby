@@ -50,6 +50,7 @@ namespace MsBuild.IronRuby
                 {
                     _taskInstance = _taskClass.@new();
                     _taskInstance.log = Log;
+                    _taskInstance.build_engine = BuildEngine;
                 }
 
                 return _taskInstance;

@@ -26,7 +26,7 @@ describe MsBuild::Task do
       SampleTask.parameters[:input_param].type.should == 'string'
     end
     it 'should be of specified type' do
-      SampleTask.parameters[:item_param].type.should == 'itaskitem'
+      SampleTask.parameters[:item_param].type.should == 'taskitem'
     end
   end
 end

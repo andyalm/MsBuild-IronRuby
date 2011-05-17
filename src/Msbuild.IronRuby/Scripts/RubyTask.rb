@@ -1,6 +1,7 @@
 module MsBuild
   module Task
     attr_accessor :log
+    attr_accessor :build_engine
 
     module ClassMethods
       def parameter(name, options={})
