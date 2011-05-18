@@ -1,5 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using System.Text;
+using IronRuby.Runtime;
 using Microsoft.Scripting.Hosting;
 
 namespace MsBuild.IronRuby.Extensions
@@ -58,7 +63,7 @@ namespace MsBuild.IronRuby.Extensions
             }
         }
 
-        public static object GetProperty(this ScriptScope scope, object instance, string name)
+        public static object GetProperty(this ScriptScope scope, object instance, string name, Type type)
         {
             var operations = scope.CreateOperations();
             var mangledPropertyName = name.Mangle();
@@ -71,15 +76,31 @@ namespace MsBuild.IronRuby.Extensions
                 {
                     throw new MemberAccessException("The property '" + name + "' is not defined");
                 }
-                else
-                {
-                    return operations.GetMember(instance, unmangledPropertyName);
-                }
+                
+                return operations.GetMember(instance, unmangledPropertyName, type);
             }
-            else
+
+            return operations.GetMember(instance, mangledPropertyName, type);
+        }
+
+        public static object GetMember(this ObjectOperations operations, object instance, string name, Type type)
+        {
+            var rubyTypedValue = operations.GetMember(instance, name);
+            if (type.IsArray)
             {
-                return operations.GetMember(instance, mangledPropertyName);
+                var untypedArray = (from item in (IEnumerable<dynamic>) rubyTypedValue
+                    select operations.ConvertTo(item, type.GetElementType())).ToArray();
+
+                var typedArray = Array.CreateInstance(type.GetElementType(), untypedArray.Length);
+                for (var i = 0; i < untypedArray.Length; i++)
+                {
+                    typedArray.SetValue(untypedArray[i], i);
+                }
+
+                return typedArray;
             }
+            
+            return operations.ConvertTo(rubyTypedValue, type);
         }
     }
 }

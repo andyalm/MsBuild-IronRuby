@@ -29,7 +29,7 @@ namespace MsBuild.IronRuby
 
         public object GetPropertyValue(TaskPropertyInfo property)
         {
-            return _taskScope.GetProperty((object) TaskInstance, property.Name);
+            return _taskScope.GetProperty((object) TaskInstance, property.Name, property.PropertyType);
         }
 
         /// <summary>
