@@ -1,22 +1,22 @@
 module MsBuild
   module Task
-    attr_accessor :log
-    attr_accessor :build_engine
+    attr_accessor :log unless defined? log
+    attr_accessor :build_engine unless defined? build_engine
     
     module ClassMethods
       def parameter(name, options={})
-        parameters[name] = TaskParameter.new name, options
+        parameters[name] = TaskParameter.new(name, options)
         attr_accessor name
       end
 
       def parameters
-        @parameters = Hash.new if @parameters == nil
-        @parameters
+        @@parameters ||= Hash.new
+        @@parameters
       end
     end
 
-    def self.included(c)
-      c.extend ClassMethods
+    def self.included(base)
+      base.extend ClassMethods
     end
 
     class TaskParameter
