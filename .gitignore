@@ -1,6 +1,7 @@
 .idea/**
 *.user
 *.suo
+*.docstates
 [Oo]bj/
 [Bb]in/
 packages/**
